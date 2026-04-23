@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/auth.service';
 import { CommonModule } from '@angular/common';
@@ -13,6 +14,13 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   private fb = inject(FormBuilder);
   private auth = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 
   isLoginMode = signal(true);
   loginError = signal(false);

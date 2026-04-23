@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
+import { AuthService } from '../../core/auth.service';
 
 @Component({
   selector: 'app-landing',
@@ -9,4 +10,12 @@ import { RouterLink } from '@angular/router';
   styleUrl: './landing.component.css'
 })
 export class LandingComponent {
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
+  constructor() {
+    if (this.auth.isLoggedIn()) {
+      this.router.navigate(['/dashboard']);
+    }
+  }
 }
