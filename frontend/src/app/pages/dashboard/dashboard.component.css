@@ -1,0 +1,142 @@
+.dashboard-layout {
+  min-height: 100vh;
+  padding-bottom: 5rem;
+}
+
+.topbar {
+  background-color: var(--surface-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.logo-text {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+
+.metrics-grid h3 {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metrics-grid .amount {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 992px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.total-card {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  position: relative;
+  overflow: hidden;
+  transform: scale(1.02);
+}
+
+.total-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), transparent 60%);
+  z-index: 0;
+}
+
+.total-card h3,
+.total-card .amount {
+  position: relative;
+  z-index: 1;
+}
+
+.total-card h3 {
+  color: #cbd5e1;
+}
+
+.total-card .amount {
+  font-size: 3rem;
+  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.canvas-wrapper {
+  position: relative;
+  height: 300px;
+  width: 100%;
+}
+
+.tx-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.tx-item:last-child {
+  border-bottom: none;
+}
+
+.tx-info h4 {
+  margin-bottom: 0.2rem;
+}
+
+.tx-date {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.tx-amount {
+  font-weight: 600;
+}
+
+.fab {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  padding: 0 1.5rem;
+  height: 3.5rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+}
+
+.fab-icon {
+  font-size: 1.5rem;
+  font-weight: 400;
+}

@@ -1,0 +1,90 @@
+<div class="dashboard-layout animate-fade-in">
+  <header class="topbar border-b">
+    <div class="container flex justify-between items-center py-4">
+      <h1 class="logo-text">Nebula</h1>
+      <div class="flex items-center gap-4">
+        <span class="user-greeting">Hi, {{ authService.currentUser()?.name }}!</span>
+        <button class="btn btn-secondary btn-sm" (click)="logout()">Logout</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-8">
+    <!-- Metrics Row -->
+    <div class="metrics-grid mb-8">
+      <div class="card total-card">
+        <h3>Total Balance</h3>
+        <div class="amount" [class.text-danger]="expenseService.totalBalance() < 0">
+          ₹{{ expenseService.totalBalance() | number:'1.2-2' }}
+        </div>
+      </div>
+      <div class="card income-card">
+        <h3>Total Income</h3>
+        <div class="amount text-success">
+          ₹{{ expenseService.totalIncome() | number:'1.2-2' }}
+        </div>
+      </div>
+      <div class="card expense-card">
+        <h3>Total Expenses</h3>
+        <div class="amount text-danger">
+          ₹{{ expenseService.totalExpense() | number:'1.2-2' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- Zero State Prompt -->
+    <div *ngIf="expenseService.loading()" class="text-center py-10">
+      <p class="text-gray-400">Loading your universe...</p>
+    </div>
+
+    <div *ngIf="!expenseService.loading() && expenseService.expenses().length === 0" class="zero-state-card text-center py-16 px-4 card animate-fade-in my-8 border-dashed border-2 border-slate-700 bg-slate-800/30">
+      <h2 class="text-3xl font-bold mb-4 highlight inline-block">Clean Slate!</h2>
+      <p class="text-lg text-slate-400 mb-8 max-w-lg mx-auto">
+        Your financial journey begins with a single step. Add your very first transaction to unlock Nebula dashboard insights and tracking!
+      </p>
+      <button class="btn btn-primary px-8 py-3 rounded-full shadow-lg hover:scale-105 transition-transform" (click)="openModal()">Track your first expense</button>
+    </div>
+
+    <!-- Charts and Recent -->
+    <div class="content-grid" *ngIf="!expenseService.loading() && expenseService.expenses().length > 0">
+      <div class="card chart-container">
+        <h3 class="mb-4">Expense by Category</h3>
+        <div class="canvas-wrapper">
+          <canvas #expenseChart></canvas>
+        </div>
+      </div>
+
+      <div class="card recent-transactions">
+        <div class="flex justify-between items-center mb-4">
+          <h3>Recent Transactions</h3>
+          <a routerLink="/history">View All</a>
+        </div>
+        
+        <div class="transaction-list">
+          <!-- show up to 5 elements -->
+          <div class="tx-item flex justify-between items-center" 
+               *ngFor="let tx of expenseService.expenses().slice(0, 5)">
+            <div class="tx-info">
+              <h4>{{ tx.category }}</h4>
+              <span class="tx-date">{{ tx.transaction_date | date }}</span>
+            </div>
+            <div class="tx-amount" [class.text-success]="tx.type === 'income'" [class.text-danger]="tx.type === 'expense'">
+              {{ tx.type === 'income' ? '+' : '-' }}₹{{ tx.amount | number:'1.2-2' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating Action Button -->
+  <button class="fab btn-primary" (click)="openModal()" aria-label="Add Transaction">
+    <span class="fab-icon">+</span> <span class="fab-text">Add Expense</span>
+  </button>
+
+  <app-transaction-modal 
+    *ngIf="showAddModal()" 
+    (close)="closeModal()" 
+    (save)="handleSaveTransaction($event)">
+  </app-transaction-modal>
+</div>

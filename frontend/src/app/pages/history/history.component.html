@@ -1,0 +1,73 @@
+<div class="history-layout animate-fade-in">
+  <header class="topbar flex justify-between items-center px-4 py-3 bg-surface border-b">
+    <div class="flex items-center gap-4">
+      <a routerLink="/dashboard" class="btn btn-outline btn-sm">← Back</a>
+      <h1 class="logo-text m-0">Transaction History</h1>
+    </div>
+  </header>
+
+  <main class="container py-8">
+    <div class="card filters-card mb-6">
+      <div class="flex flex-wrap gap-4 items-center justify-between">
+        <div class="search-box flex-1 min-w-[200px]">
+          <input 
+            type="text" 
+            placeholder="Search category or notes..." 
+            [(ngModel)]="searchTerm" 
+            (ngModelChange)="searchTerm.set($event)"
+          />
+        </div>
+        
+        <div class="type-filter flex gap-2">
+          <button class="btn btn-sm" [class.btn-primary]="typeFilter() === 'all'" [class.btn-outline]="typeFilter() !== 'all'" (click)="typeFilter.set('all')">All</button>
+          <button class="btn btn-sm" [class.btn-primary]="typeFilter() === 'income'" [class.btn-outline]="typeFilter() !== 'income'" (click)="typeFilter.set('income')">Income</button>
+          <button class="btn btn-sm" [class.btn-primary]="typeFilter() === 'expense'" [class.btn-outline]="typeFilter() !== 'expense'" (click)="typeFilter.set('expense')">Expense</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card p-0 overflow-hidden">
+      <div *ngIf="filteredExpenses().length; else emptyState">
+        <div class="table-responsive">
+          <table class="w-full text-left">
+            <thead>
+              <tr class="bg-muted">
+                <th>Date</th>
+                <th>Category</th>
+                <th>Type</th>
+                <th>Notes</th>
+                <th class="text-right">Amount</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let tx of filteredExpenses()" class="tx-row">
+                <td class="text-muted">{{ tx.transaction_date | date:'mediumDate' }}</td>
+                <td class="font-medium">{{ tx.category }}</td>
+                <td>
+                  <span class="badge" [class.badge-success]="tx.type === 'income'" [class.badge-danger]="tx.type === 'expense'">
+                    {{ tx.type }}
+                  </span>
+                </td>
+                <td class="text-muted text-sm truncate max-w-xs">{{ tx.notes || '-' }}</td>
+                <td class="text-right font-bold" [class.text-success]="tx.type === 'income'" [class.text-danger]="tx.type === 'expense'">
+                  {{ tx.type === 'income' ? '+' : '-' }}₹{{ tx.amount | number:'1.2-2' }}
+                </td>
+                <td class="text-center">
+                  <button class="btn-icon-sm text-danger" (click)="deleteTx(tx.id)" title="Delete">✕</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <ng-template #emptyState>
+        <div class="text-center py-12">
+          <h3 class="text-muted">No transactions found</h3>
+          <p class="text-sm">Try adjusting your filters or search term.</p>
+        </div>
+      </ng-template>
+    </div>
+  </main>
+</div>
