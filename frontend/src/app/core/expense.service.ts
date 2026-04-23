@@ -65,6 +65,15 @@ export class ExpenseService {
     }
   }
 
+  async updateTransaction(id: string, expense: Omit<Expense, 'id' | 'created_at'>) {
+    try {
+      await firstValueFrom(this.http.put(`http://localhost:3000/api/expenses/${id}`, expense));
+      this.refreshExpenses();
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   async deleteTransaction(id: string) {
     try {
       await firstValueFrom(this.http.delete(`http://localhost:3000/api/expenses/${id}`));

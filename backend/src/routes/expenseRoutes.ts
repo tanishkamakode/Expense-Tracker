@@ -74,6 +74,44 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+router.put('/:id', async (req: Request, res: Response): Promise<any> => {
+  try {
+    const userId = (req as any).user.id;
+    const expenseId = req.params.id;
+    const { amount, type, category, transaction_date, notes } = req.body;
+
+    if (!amount || !type || !category || !transaction_date) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    let categoryId;
+    const [catRows]: any = await pool.query(
+      'SELECT id FROM categories WHERE user_id = ? AND name = ?',
+      [userId, category]
+    );
+
+    if (catRows.length > 0) {
+      categoryId = catRows[0].id;
+    } else {
+      const [insertCatResult]: any = await pool.query(
+        'INSERT INTO categories (user_id, name, type) VALUES (?, ?, ?)',
+        [userId, category, type === 'both' ? 'both' : type]
+      );
+      categoryId = insertCatResult.insertId;
+    }
+
+    await pool.query(
+      'UPDATE expenses SET category_id = ?, amount = ?, type = ?, transaction_date = ?, notes = ? WHERE id = ? AND user_id = ?',
+      [categoryId, amount, type, transaction_date, notes || null, expenseId, userId]
+    );
+
+    res.json({ message: 'Updated successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error updating expense' });
+  }
+});
+
 router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     const userId = (req as any).user.id;

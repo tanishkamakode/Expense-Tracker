@@ -2,27 +2,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 :root {
-  /* Dynamic Modern Palette - Landing Page Match */
+  /* Minimal Dark Theme */
   --bg-color: #0f172a;
-  --surface-color: rgba(30, 41, 59, 0.5);
+  --surface-color: #1e293b;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
-  --border-color: rgba(255, 255, 255, 0.05);
-  
-  --primary-color: #a855f7;
-  --primary-hover: #9333ea;
-  
-  --success-color: #10b981; /* Green for Income */
-  --danger-color: #ef4444; /* Red for Expense */
-  
+  --border-color: #334155;
+
+  --primary-color: #3b82f6;
+  --primary-hover: #2563eb;
+
+  --success-color: #10b981;
+  /* Green for Income */
+  --danger-color: #ef4444;
+  /* Red for Expense */
+
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
-  
+
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  
+
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -51,15 +53,27 @@ body {
 }
 
 /* Base Typo */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 600;
   line-height: 1.2;
 }
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .animate-fade-in {
@@ -74,9 +88,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* Form Elements */
-input, select, textarea {
+input,
+select,
+textarea {
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
+  min-height: 3.5rem;
+  height: 3.5rem;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   background-color: var(--surface-color);
@@ -86,7 +104,9 @@ input, select, textarea {
   font-family: inherit;
 }
 
-input:focus, select:focus, textarea:focus {
+input:focus,
+select:focus,
+textarea:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
 }
@@ -106,9 +126,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
+  background-color: var(--primary-color);
   color: white;
-  box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.4);
 }
 
 .btn-primary:hover {
@@ -119,6 +138,19 @@ input:focus, select:focus, textarea:focus {
 
 .btn-primary:active {
   transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-outline {
@@ -146,7 +178,6 @@ input:focus, select:focus, textarea:focus {
 
 .card {
   background-color: var(--surface-color);
-  backdrop-filter: blur(10px);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-sm);
   padding: 2.5rem;
@@ -159,12 +190,70 @@ input:focus, select:focus, textarea:focus {
   transform: translateY(-4px);
 }
 
-.text-success { color: var(--success-color); }
-.text-danger { color: var(--danger-color); }
+.text-success {
+  color: var(--success-color);
+}
 
-.flex { display: flex; }
-.justify-between { justify-content: space-between; }
-.items-center { align-items: center; }
-.gap-4 { gap: 1rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mt-4 { margin-top: 1rem; }
+.text-danger {
+  color: var(--danger-color);
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.rounded-full {
+  border-radius: var(--radius-full);
+}
+
+.gap-2 {
+  gap: 0.5rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.gap-4 {
+  gap: 1rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-6 {
+  margin-bottom: 2rem;
+}
+
+.mb-8 {
+  margin-bottom: 3rem;
+}
+
+.mt-4 {
+  margin-top: 1rem;
+}
+
+.mt-8 {
+  margin-top: 3rem;
+}

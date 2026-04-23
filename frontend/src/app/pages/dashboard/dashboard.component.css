@@ -5,6 +5,8 @@
 
 .topbar {
   background-color: var(--surface-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 0;
   box-shadow: var(--shadow-sm);
 }
 
@@ -12,10 +14,7 @@
   font-size: 1.75rem;
   font-weight: 800;
   letter-spacing: -0.05em;
-  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary-color);
   margin: 0;
 }
 
@@ -55,22 +54,9 @@
 }
 
 .total-card {
-  background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(59, 130, 246, 0.1) 100%);
-  border: 1px solid rgba(168, 85, 247, 0.3);
   position: relative;
   overflow: hidden;
   transform: scale(1.02);
-}
-
-.total-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: radial-gradient(circle at top right, rgba(168, 85, 247, 0.15), transparent 60%);
-  z-index: 0;
 }
 
 .total-card h3,
@@ -80,15 +66,12 @@
 }
 
 .total-card h3 {
-  color: #cbd5e1;
+  color: var(--text-secondary);
 }
 
 .total-card .amount {
   font-size: 3rem;
-  background: linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--primary-color);
 }
 
 .canvas-wrapper {

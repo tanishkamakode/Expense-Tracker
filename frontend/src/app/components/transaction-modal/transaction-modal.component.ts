@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Output, Input, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
     <div class="modal-overlay animate-fade-in">
       <div class="modal-content card slide-up">
         <div class="flex justify-between items-center mb-4">
-          <h2>Add Transaction</h2>
+          <h2>{{ isEdit ? 'Edit Transaction' : 'Add Transaction' }}</h2>
           <button class="btn btn-icon btn-outline" style="width: 2rem; height: 2rem;" (click)="close.emit()">
             ✕
           </button>
@@ -30,7 +30,10 @@ import { CommonModule } from '@angular/common';
 
           <div class="form-group">
             <label>Category</label>
-            <input type="text" formControlName="category" placeholder="e.g. Food, Salary, Travel" />
+            <select formControlName="category">
+              <option value="" disabled>Select a category</option>
+              <option *ngFor="let cat of getCategories()" [value]="cat">{{ cat }}</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -85,9 +88,24 @@ import { CommonModule } from '@angular/common';
 })
 export class TransactionModalComponent {
   private fb = inject(FormBuilder);
-  
+
   @Output() close = new EventEmitter<void>();
   @Output() save = new EventEmitter<any>();
+
+  isEdit = false;
+
+  @Input() set transaction(tx: any) {
+    if (tx) {
+      this.isEdit = true;
+      this.form.patchValue({
+        type: tx.type,
+        amount: tx.amount,
+        category: tx.category,
+        transaction_date: tx.transaction_date.split('T')[0],
+        notes: tx.notes || ''
+      });
+    }
+  }
 
   form = this.fb.group({
     type: ['expense', Validators.required],
@@ -98,7 +116,14 @@ export class TransactionModalComponent {
   });
 
   setType(type: 'income' | 'expense') {
-    this.form.patchValue({ type });
+    this.form.patchValue({ type, category: '' });
+  }
+
+  getCategories(): string[] {
+    if (this.form.value.type === 'income') {
+      return ['Salary', 'Freelance', 'Investments', 'Gifts', 'Other Income'];
+    }
+    return ['Food & Dining', 'Transportation', 'Housing', 'Utilities', 'Entertainment', 'Healthcare', 'Shopping', 'Personal Care', 'Education', 'Travel', 'Other Expense'];
   }
 
   onSubmit() {

@@ -2,12 +2,8 @@
   min-height: 100vh;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, var(--bg-color) 0%, #eef0fc 100%);
+  background-color: var(--bg-color);
   padding: 1rem;
-}
-
-[data-theme='dark'] .login-container {
-  background: linear-gradient(135deg, var(--bg-color) 0%, #171b26 100%);
 }
 
 .login-card {

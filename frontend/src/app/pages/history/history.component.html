@@ -7,7 +7,7 @@
   </header>
 
   <main class="container py-8">
-    <div class="card filters-card mb-6">
+    <div class="card filters-card mt-8 mb-8">
       <div class="flex flex-wrap gap-4 items-center justify-between">
         <div class="search-box flex-1 min-w-[200px]">
           <input 
@@ -43,7 +43,29 @@
             <tbody>
               <tr *ngFor="let tx of filteredExpenses()" class="tx-row">
                 <td class="text-muted">{{ tx.transaction_date | date:'mediumDate' }}</td>
-                <td class="font-medium">{{ tx.category }}</td>
+                <td class="font-medium">
+                  <div class="flex items-center gap-3">
+                    <div class="icon-circle flex items-center justify-center rounded-full" style="width: 32px; height: 32px; background: rgba(255,255,255,0.05);">
+                      <!-- Healthcare -->
+                      <svg *ngIf="tx.category === 'Healthcare'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M2 12h20"></path>
+                      </svg>
+                      <!-- Income -->
+                      <svg *ngIf="tx.type === 'income'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 12V8H6a2 2 0 0 1-2-2c0-1.1.9-2 2-2h12v4"></path>
+                        <path d="M4 6v12c0 1.1.9 2 2 2h14v-4"></path>
+                        <path d="M18 12a2 2 0 0 0-2 2c0 1.1.9 2 2 2h4v-4h-4z"></path>
+                      </svg>
+                      <!-- Default Expense -->
+                      <svg *ngIf="tx.type === 'expense' && tx.category !== 'Healthcare'" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                        <circle cx="12" cy="12" r="2"></circle>
+                        <path d="M6 12h.01M18 12h.01"></path>
+                      </svg>
+                    </div>
+                    {{ tx.category }}
+                  </div>
+                </td>
                 <td>
                   <span class="badge" [class.badge-success]="tx.type === 'income'" [class.badge-danger]="tx.type === 'expense'">
                     {{ tx.type }}
@@ -53,8 +75,9 @@
                 <td class="text-right font-bold" [class.text-success]="tx.type === 'income'" [class.text-danger]="tx.type === 'expense'">
                   {{ tx.type === 'income' ? '+' : '-' }}₹{{ tx.amount | number:'1.2-2' }}
                 </td>
-                <td class="text-center">
-                  <button class="btn-icon-sm text-danger" (click)="deleteTx(tx.id)" title="Delete">✕</button>
+                <td class="text-center flex justify-center gap-6">
+                  <button class="btn btn-secondary text-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;" (click)="editTx(tx)">Edit</button>
+                  <button class="btn btn-secondary text-danger" style="padding: 0.5rem 1rem; font-size: 0.85rem;" (click)="deleteTx(tx.id)">Delete</button>
                 </td>
               </tr>
             </tbody>
@@ -63,11 +86,24 @@
       </div>
       
       <ng-template #emptyState>
-        <div class="text-center py-12">
-          <h3 class="text-muted">No transactions found</h3>
+        <div class="text-center py-12 flex flex-col items-center justify-center animate-fade-in">
+          <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="text-muted mb-4" style="opacity: 0.5;">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+            <circle cx="12" cy="12" r="3" fill="var(--surface-color)"></circle>
+          </svg>
+          <h3 class="text-muted mb-2">No transactions found</h3>
           <p class="text-sm">Try adjusting your filters or search term.</p>
         </div>
       </ng-template>
     </div>
   </main>
+
+  <app-transaction-modal 
+    *ngIf="editingTx()" 
+    [transaction]="editingTx()"
+    (close)="closeModal()" 
+    (save)="handleSaveTransaction($event)">
+  </app-transaction-modal>
 </div>
