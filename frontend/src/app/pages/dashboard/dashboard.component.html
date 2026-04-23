@@ -192,6 +192,11 @@
     <span class="fab-icon">+</span> <span class="fab-text">Add Expense</span>
   </button>
 
+  <!-- Floating Action Button for AI Analysis -->
+  <button class="fab btn-secondary fab-ai" routerLink="/ai-analysis" aria-label="AI Analysis">
+    <span class="fab-icon">✨</span> <span class="fab-text">AI Analysis</span>
+  </button>
+
   <app-transaction-modal *ngIf="showAddModal()" (close)="closeModal()" (save)="handleSaveTransaction($event)">
   </app-transaction-modal>
 </div>

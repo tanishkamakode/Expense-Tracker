@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 import { initDb } from './db';
 import authRoutes from './routes/authRoutes';
 import expenseRoutes from './routes/expenseRoutes';
+import aiRoutes from './routes/aiRoutes';
+
 
 dotenv.config();
 
@@ -15,6 +17,10 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 
+
+app.use('/api/ai', aiRoutes);
+
+console.log("AI routes loaded");
 
 app.use('/api/expenses', expenseRoutes);
 

@@ -129,3 +129,12 @@
   font-size: 1.5rem;
   font-weight: 400;
 }
+
+.fab-ai {
+  bottom: 6.5rem;
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  border: none;
+}
+.fab-ai:hover {
+  box-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+}
