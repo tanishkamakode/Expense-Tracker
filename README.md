@@ -63,6 +63,7 @@ Instead of sending raw data to the model:
 ---
 
 ## 📂 Project Structure
+```
 frontend/
 ├── components/
 ├── services/
@@ -74,7 +75,7 @@ backend/
 ├── db.ts
 ├── server.ts
 
-
+```
 ---
 
 ## ⚙️ Setup Instructions
